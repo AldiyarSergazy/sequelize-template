@@ -27,15 +27,11 @@ const port = 3000;
     salary: 250_000,
   }); // create */
   
-  const bob = await User.findOne({ where: { username: "Bob" }});
-  console.log(JSON.stringify(bob.dataValues));
-
-  const all = await User.findAll();
-  console.log(JSON.stringify(all));
-
-  app.get('/users',(req,res) => {
+  app.get('/users',async (req,res) => {
+    const all = await User.findAll();
     res.send(JSON.stringify(all))
   });
+
   app.get('/user/:id',async (req,res) => {
     const user = await User.findOne({ where: { id: req.params.id }});
     if (user !== null) {
@@ -44,8 +40,9 @@ const port = 3000;
       res.status(404).send('Sorry cant find that!');
     }
   });
+
 })();
 
 app.listen(port, () => {
-  console.log(`Сервер был запущен: http://localhost:${port}`);
+  console.log(`Сервер был запущен: http://localhost:${port}\n`);
 })
